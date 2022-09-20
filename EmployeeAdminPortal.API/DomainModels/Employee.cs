@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,10 +21,16 @@ namespace EmployeeAdminPortal.API.DomainModels
 
         public string ProfileImageUrl { get; set; }
 
+        public Guid GenderId { get; set; }
+
+        //public Gender Value { get; set; }
+
         public Guid DepartmentId { get; set; }
 
         public Department Department { get; set; }
 
         public Address Address { get; set; }
+
+        public Gender Gender { get; set; }
     }
 }

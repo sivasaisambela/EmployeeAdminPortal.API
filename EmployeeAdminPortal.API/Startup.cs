@@ -29,7 +29,18 @@ namespace EmployeeAdminPortal.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200/", "http://localhost:4200/Employees")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
             services.AddControllers();
             services.AddDbContext<EmployeeAdminContext>(options => 
                              options.UseSqlServer(Configuration.GetConnectionString("EmployeeAdminPortalDb")));
@@ -58,6 +69,13 @@ namespace EmployeeAdminPortal.API
 
             app.UseRouting();
 
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

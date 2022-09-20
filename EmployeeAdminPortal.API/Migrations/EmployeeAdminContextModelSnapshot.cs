@@ -74,6 +74,9 @@ namespace EmployeeAdminPortal.API.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("GenderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -87,7 +90,23 @@ namespace EmployeeAdminPortal.API.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("GenderId");
+
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EmployeeAdminPortal.API.Models.Gender", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Gender");
                 });
 
             modelBuilder.Entity("EmployeeAdminPortal.API.Models.Address", b =>
@@ -107,7 +126,15 @@ namespace EmployeeAdminPortal.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EmployeeAdminPortal.API.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Department");
+
+                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("EmployeeAdminPortal.API.Models.Employee", b =>
